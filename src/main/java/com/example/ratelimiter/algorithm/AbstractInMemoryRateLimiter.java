@@ -23,12 +23,12 @@ public abstract class AbstractInMemoryRateLimiter implements RateLimiter, Dispos
     protected AbstractInMemoryRateLimiter(Duration cleanupInterval) {
         this.staleThresholdNanos = cleanupInterval.toNanos();
 
-        this.cleanupScheduler = Executors.newSingleThreadScheduledExecutor(r ->
-                Thread.ofPlatform()
-                        .name("ratelimiter-cleanup-" + getAlgorithm().name().toLowerCase())
-                        .daemon(true)
-                        .unstarted(r)
-        );
+        this.cleanupScheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread t = new Thread(r);
+            t.setName("ratelimiter-cleanup-" + getAlgorithm().name().toLowerCase());
+            t.setDaemon(true);
+            return t;
+        });
 
         this.cleanupScheduler.scheduleAtFixedRate(
                 this::performCleanup,

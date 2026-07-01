@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
 
+import org.springframework.context.annotation.ComponentScan;
+
 @Configuration
 @EnableConfigurationProperties(RateLimiterProperties.class)
+@ComponentScan("com.example.ratelimiter")
 public class RateLimiterConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(RateLimiterConfiguration.class);
