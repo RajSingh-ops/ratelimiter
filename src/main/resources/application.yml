@@ -1,0 +1,24 @@
+rate-limiter:
+  algorithm: TOKEN_BUCKET
+  max-requests: 100
+  window-size: 60s
+  bucket-capacity: 100
+  refill-rate: 10.0
+  leak-rate: 10.0
+  queue-capacity: 100
+  key-strategy: IP
+  cleanup-interval: 5m
+  global-enabled: true
+
+spring:
+  application:
+    name: rate-limiter
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+server:
+  port: 8080
